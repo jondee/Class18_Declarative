@@ -5,16 +5,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>LandmarkTechnologies- Home Page</title>
-<link href="images/mylandmarklogo.png" rel="icon">
+<link href="images/paypal_class18.png" rel="icon">
 </head>
 </head>
-<BODY BGCOLOR="WHITE"></BODY>
+<BODY BGCOLOR="GREY"></BODY>
 <body>
 <h1 align="center">Declarative Scripts Group 18</h1>
 <h1 align="center"> This page will show us  on how to deploy declarative pipeline scripts 	 </h1>
 <hr>
 <br>
-	<h1><h3> Server Side IP Address </h3><br>
+	<h1><h3> Server Side Private  IP Address </h3><br>
 
 <% 
 String ip = "";
@@ -23,14 +23,14 @@ ip = inetAddress.getHostAddress();
 out.println("Server Host Name :: "+inetAddress.getHostName()); 
 %>
 <br>
-<%out.println("Server IP Address :: "+ip);%>
+<%out.println("Server Private IP Address :: "+ip);%>
 		
 </h1>
 	
 <hr>
 <div style="text-align: center;">
 	<span>
-		<img src="images/bofa.png" alt="" width="150">
+		<img src="images/paypal_class18.png" alt="" width="150">
 	</span>
 	<span style="font-weight: bold;">
 		PayPal  Group 18
