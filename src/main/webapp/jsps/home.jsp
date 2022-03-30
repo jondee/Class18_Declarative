@@ -8,7 +8,7 @@
 <link href="images/paypal_class18.png" rel="icon">
 </head>
 </head>
-<BODY BGCOLOR= #003399 ></BODY>
+<BODY BGCOLOR= "White" ></BODY>
 <body>
 <h1 align="center">Declarative Scripts Group 18</h1>
 <h1 align="center"> This page will show us  on how to deploy declarative pipeline scripts 	 </h1>
