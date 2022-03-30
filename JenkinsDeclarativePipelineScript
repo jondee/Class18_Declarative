@@ -1,59 +1,77 @@
-//declarative pipeline
-pipeline{
-  agent any  
-  tools {
-    maven "maven3.8.4"
-  }
-  triggers {
-  pollSCM '* * * * * '
-}
-  stages {
-    stage('1.CodeClone'){
-      steps{
-          git branch: 'stage', credentialsId: 'GitHubCredentials', url: 'https://github.com/LandmakTechnology/web-app'
-      }
-    } 
-    stage('2.mavenBuild'){
-      steps{
-      sh "mvn clean package"
-      } 
-    }
-    stage('3.CodeQuality') {
-      steps{
-      sh "echo reports done"
-      //sh "mvn sonar:sonar"
-      } 
-    }
-    stage('4.uploadToNexus'){
-      steps{
-      sh "echo artifacts uploaded"
-      //sh "mvn deploy"
-      } 
-    }
-    stage('5.Deploy2Tomcat'){
-    steps{
-    sshagent(['32d5fb4f-d92f-4a10-9f12-2738eab55fcc']) {
-    sh "scp -o StrictHostKeyChecking=no target/*war ec2-user@172.31.15.31:/opt/tomcat9/webapps/app"
-}
-    
-} 
-    }
-    }
-  post{
-    always {
-     mail bcc: 'td-app@gmail.com', body: '''Build complete 
+pipeline {
+    agent any
+    tools{
+       maven "maven3.8.4"
+    }       
+  
+    stages{
+        stage('1. clone') {
+            steps{
+                sh "echo cloning the latest version of the code"
+               
+				git 'https://github.com/jondee/Class18_Declarative.git'
+                sh "echo cloning successful"
+            }
+        }
+		
+		  stage('2 Build') {
+            steps{
+                sh "echo validation,compilation,testing,package" 
+                sh "echo testing successful and ready to package"
+                sh "mvn clean package"
+               
+            }
+        }
+        
+		  stage('5 Deploy2UAT') {
+            steps{
+                sh "echo Deploying to UAT for further testing " 
+                           
+                deploy adapters: [tomcat9(credentialsId: 'TOMCAT_CRED', path: '', url: 'http://54.89.143.25:8080/')], contextPath: null, war: 'target/*war'
 
-Landmark Technologies''', cc: 'td-app@gmail.com', from: '', replyTo: '', subject: 'Build done', to: 'td-app@gmail.com'
-    } 
-    failure {
-    mail bcc: 'td-app@gmail.com', body: '''Build complete 
+             }    
+        }
+         
+        stage('6 Approval') {
+            steps{
+               sh "echo Managment has to  approve deployment to production" 
+               timeout(time:8, unit:'HOURS'){
+               input message: 'please approve deployment to production '
+                }
+             }    
+        }
+        
+           stage('7 Prod Deployment') {
+            steps{
+              sshagent(['SSH_CRED']) {
+                  sh "scp -o StrictHostKeyChecking=no target/*.war ec2-user@52.90.241.160:/opt/tomcat9/webapps/app.war"
+                }
+             }    
+        }
+        
+        
+    }//close stages
 
-Landmark Technologies''', cc: 'td-app@gmail.com', from: '', replyTo: '', subject: 'Build failed', to: 'td-app@gmail.com'
-    }
-    success {
-    mail bcc: 'td-app@gmail.com', body: '''Build complete 
+          //if we need notifications for successfull deployments , it can be configured here 
+    post{         
+      always{mail bcc: '', body: '''Hello All , 
+             Build was successful
 
-Landmark Technologies''', cc: 'td-app@gmail.com', from: '', replyTo: '', subject: 'Build succeed', to: 'td-app@gmail.com'
-    }
-  }  
-  }
+             Regards
+             Bank Of America''', cc: '', from: '', replyTo: '', subject: 'Success', to: 'tolu2618@gmail.com'}
+      success{mail bcc: '', body: '''Hello All , 
+             Build was successful
+
+             Regards
+             Bank Of America''', cc: '', from: '', replyTo: '', subject: 'Success', to: 'tolu2618@gmail.com'}
+      failure{mail bcc: '', body: '''Hello All , 
+             Build was successful
+
+             Regards
+             Bank Of America''', cc: '', from: '', replyTo: '', subject: 'Success', to: 'tolu2618@gmail.com'}
+        }
+
+   
+          
+ 
+}//main pipeline
