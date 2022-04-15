@@ -7,7 +7,7 @@
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	
-	<name>Group-18-Declarative-web-application</name>
+	<name>maven-web-application</name>
 
 	<description>Maven Web Project for Java Project</description>
 
@@ -21,7 +21,6 @@
 		<spring.version>5.1.2.RELEASE</spring.version>
 		<junit.version>4.11</junit.version>
 		<log4j.version>1.2.17</log4j.version>
-        <!-- Sonar Credentials Group18 -->
 		<sonar.host.url>http:192.168.108.154:9000/</sonar.host.url>
 		<sonar.login>admin</sonar.login>
 		<sonar.password>admin</sonar.password>
@@ -93,24 +92,24 @@
 		</dependency>
 		
 	</dependencies>
+	
 	<distributionManagement>
-    <!-- Nexus Credentials Group18 -->
 	    <repository>
 	      <id>nexus</id>
 	      <name>Landmark Technologies Releases Nexus Repository</name>
-	      <url>http://192.168.108.155:8888/repository/paypal-releases/</url>
+	      <url> http://192.168.108.155:8888/repository/ebay-bts-releases/</url>
 	    </repository>
 	    
 	    <snapshotRepository>
 	      <id>nexus</id>
 	      <name>Landmark Technologies Snapshot Nexus Repository </name>
-	      <url>http://192.168.108.155:8888/repository/paypal-snapshots/</url>
+	      <url>http://192.168.108.155:8888/repository/ebay-bts-snapshot/</url>
 	    </snapshotRepository>
 	    
 	</distributionManagement>
 	
 	<build>
-		<finalName>Group 18 Declarative pipeline</finalName>
+		<finalName>docker-maven-web-app</finalName>
 		
 		<plugins>
 			<plugin>
